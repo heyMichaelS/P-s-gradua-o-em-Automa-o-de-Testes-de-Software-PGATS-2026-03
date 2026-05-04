@@ -1,35 +1,36 @@
-name: CI — Testes de Login
+name: CI - Testes
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [main, develop]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   test:
-    name: Rodar testes com Mocha
+    name: Testes automatizados
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [22.13.0]
-
     steps:
-      - name: 📥 Checkout do repositório
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 🟢 Configurar Node.js ${{ matrix.node-version }}
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22
           cache: 'npm'
 
-      - name: 📦 Instalar dependências
-        run: npm install
+      - name: Instalar dependencias
+        run: npm ci
 
-      - name: 🧪 Executar testes
-        run: npx mocha login.test.js
+      - name: Executar testes
+        run: npm test
+
+      - name: Publicar relatorio Mochawesome
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-report
+          path: mochawesome-report/
+          if-no-files-found: warn

@@ -7,13 +7,14 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha \"test/**/*.test.js\" --reporter mochawesome --reporter-options reportDir=mochawesome-report,reportFilename=index,html=true,json=true,overwrite=true"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
-  "dependencies": {
-    "mocha": "^11.7.5"
+  "devDependencies": {
+    "mocha": "^11.7.5",
+    "mochawesome": "^7.1.4"
   }
 }
