@@ -1,7 +1,7 @@
-import assert from "assert";
 import { fazerLogin } from "../src/Login.js";
+import assert from "assert";
 
-describe("fazerLogin()", function () {
+describe("Cenarios de validacao do login", function () {
 
     it("Teste 1 — deve retornar sucesso com email e senha corretos", function () {
         const resultado = fazerLogin("ana@email.com", "senha123");

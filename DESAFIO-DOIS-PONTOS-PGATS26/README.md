@@ -73,10 +73,10 @@ login-auth/
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/login-auth.git
+git clone https://github.com/heyMichaelS/P-s-gradua-o-em-Automa-o-de-Testes-de-Software-PGATS-2026-03.git
 
 # Acesse a pasta do projeto
-cd login-auth
+cd DESAFIO-DOIS-PONTOS-PGATS26
 
 # Instale as dependências
 npm install
@@ -117,25 +117,6 @@ A suíte cobre os quatro fluxos possíveis da função `fazerLogin()`:
 
 ---
 
-## Exemplo de Uso
-
-```js
-const { fazerLogin } = require('./login');
-
-fazerLogin('ana@email.com', 'senha123');
-// → 'Login realizado com sucesso'
-
-fazerLogin('bruno@email.com', 'abc@456');
-// → 'Renove suas credenciais'
-
-fazerLogin('fantasma@email.com', 'qualquer');
-// → 'Credenciais incorretas'
-
-fazerLogin('carla@email.com', 'senhaerrada');
-// → 'Credenciais incorretas'
-```
-
----
 
 ## Aprendizados
 
@@ -149,7 +130,7 @@ fazerLogin('carla@email.com', 'senhaerrada');
 
 ## Autor
 
-Feito com 💙 por **[Seu Nome](https://github.com/seu-usuario)**
+Feito por **[Michael  Silva](https://github.com/heyMichaelS)**
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](www.linkedin.com/in/heymichaels)
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/heyMichaelS)
