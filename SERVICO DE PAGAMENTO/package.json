@@ -1,0 +1,21 @@
+{
+  "name": "servico-de-pagamento",
+  "version": "1.0.0",
+  "description": "Projeto Node.js com uma classe responsavel por realizar pagamentos e consultar o ultimo pagamento realizado.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "test:report": "mocha --reporter mochawesome"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "mocha": "^11.7.5",
+    "mochawesome": "^7.1.4"
+  }
+}
