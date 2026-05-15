@@ -1,12 +1,13 @@
 # Servico de Pagamento
 
-Projeto Node.js com uma classe responsavel por realizar pagamentos e consultar o ultimo pagamento realizado.
+Projeto Node.js criado para simular pagamentos, consultar o ultimo pagamento realizado e validar as regras com testes automatizados usando Mocha e Node Assert.
 
 ## Tecnologias
 
 - Node.js
 - JavaScript com ES Modules
 - Mocha
+- Node Assert
 - Mochawesome
 - GitHub Actions
 
@@ -14,48 +15,48 @@ Projeto Node.js com uma classe responsavel por realizar pagamentos e consultar o
 
 ```text
 .
-+-- .github/workflows/testes.yml
++-- .github/
+|   +-- workflows/
+|       +-- testes.yml
 +-- src/
 |   +-- servicoPagamento.js
 +-- test/
 |   +-- pageObjects/
 |   |   +-- servicoPagamento.page.js
 |   +-- servicoPagamento.test.js
++-- .gitattributes
 +-- .gitignore
++-- package-lock.json
 +-- package.json
 +-- README.md
 ```
 
+## Classe principal
+
+A classe principal do projeto e `ServicoDePagamento`, localizada em `src/servicoPagamento.js`.
+
+Ela possui dois metodos:
+
+- `pagar(codigoBarras, empresa, valor)`: realiza um pagamento e armazena o objeto em uma lista interna.
+- `consultarUltimoPagamento()`: retorna apenas o ultimo pagamento armazenado.
+
 ## Regra de negocio
 
-A classe `ServicoDePagamento` possui dois metodos:
-
-- `pagar(codigoBarras, empresa, valor)`: cadastra um pagamento na lista interna de pagamentos.
-- `consultarUltimoPagamento()`: retorna apenas o ultimo pagamento cadastrado.
-
-Cada pagamento possui:
+Cada pagamento possui as propriedades:
 
 - `codigoBarras`
 - `empresa`
 - `valor`
 - `categoria`
 
-Quando o valor do pagamento for maior que `100.00`, a categoria sera `cara`. Caso contrario, a categoria sera `padrão`.
+Quando o valor do pagamento for maior que `100.00`, a propriedade `categoria` recebe `cara`.
 
-## Page Objects com ES Modules
+Quando o valor for menor ou igual a `100.00`, a propriedade `categoria` recebe `padrão`.
 
-Mesmo com `"type": "module"` no `package.json`, e possivel usar Page Objects normalmente.
-
-O arquivo `test/pageObjects/servicoPagamento.page.js` exporta a classe `ServicoPagamentoPage` usando `export default`.
-Os testes importam essa classe usando `import`.
-
-Exemplo:
+Caso `consultarUltimoPagamento()` seja chamado sem nenhum pagamento realizado, a classe lanca o erro:
 
 ```js
-import ServicoPagamentoPage from './pageObjects/servicoPagamento.page.js';
-
-const servicoPagamentoPage = new ServicoPagamentoPage();
-servicoPagamentoPage.pagar('0987-7656-3475', 'Samar', 156.87);
+throw new Error('Nenhum pagamento realizado.');
 ```
 
 ## Exemplo de uso
@@ -81,49 +82,84 @@ Retorno esperado:
 }
 ```
 
+## Testes
+
+Os testes ficam na pasta `test` e usam:
+
+- Mocha como executor de testes.
+- Node Assert para as validacoes.
+- Page Object para organizar as acoes usadas nos testes.
+
+O Page Object fica em `test/pageObjects/servicoPagamento.page.js`.
+
+Os testes seguem o padrao:
+
+```js
+// arrange
+// act
+// assert
+```
+
+Cenarios testados:
+
+- pagamento com valor maior que `100.00` deve receber categoria `cara`
+- pagamento com valor menor ou igual a `100.00` deve receber categoria `padrão`
+- consulta deve retornar apenas o ultimo pagamento realizado
+- consulta sem pagamentos deve lancar erro
+
 ## Instalacao
 
-Instale as dependencias do projeto:
+Instale as dependencias:
 
 ```bash
 npm install
 ```
 
-## Como rodar os testes
+## Rodar os testes
 
 Para rodar os testes com Mocha:
-
-```bash
-npx mocha
-```
-
-Ou pelo script configurado:
 
 ```bash
 npm test
 ```
 
-## Como gerar relatorio com Mochawesome
+Ou:
+
+```bash
+npx mocha
+```
+
+## Gerar relatorio Mochawesome
+
+Para rodar os testes gerando relatorio:
 
 ```bash
 npm run test:report
 ```
 
-O relatorio sera gerado na pasta `mochawesome-report`.
+O relatorio sera gerado na pasta:
 
-## Pipeline no GitHub Actions
+```text
+mochawesome-report
+```
 
-O pipeline esta configurado em `.github/workflows/testes.yml`.
+## GitHub Actions
 
-Ele executa automaticamente em:
+Se este projeto for o repositorio principal no GitHub, o workflow deve ficar em:
 
-- `push` nas branches `main` e `master`
-- `pull_request` para as branches `main` e `master`
+```text
+.github/workflows/testes.yml
+```
 
-Etapas executadas:
+O pipeline deve:
 
-- baixa o codigo do repositorio
-- configura Node.js 20
-- instala as dependencias com `npm install`
-- roda os testes com Mochawesome
-- publica o relatorio como artefato do GitHub Actions
+- baixar o codigo com `actions/checkout`
+- configurar Node.js
+- instalar dependencias com `npm ci`
+- rodar os testes com `npm run test:report`
+- publicar o relatorio Mochawesome como artefato
+
+O workflow executa em:
+
+- `push` nas branches `main` e `develop`
+- `pull_request` para a branch `main`
