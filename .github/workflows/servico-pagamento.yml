@@ -1,0 +1,40 @@
+name: Servico de Pagamento
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: "SERVICO DE PAGAMENTO"
+
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: "SERVICO DE PAGAMENTO/package-lock.json"
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Rodar testes com Mochawesome
+        run: npm run test:report
+
+      - name: Publicar relatorio Mochawesome
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: servico-pagamento-mochawesome-report
+          path: "SERVICO DE PAGAMENTO/mochawesome-report"
+          if-no-files-found: warn
